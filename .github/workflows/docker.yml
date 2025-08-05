@@ -11,8 +11,11 @@ on:
       - 'requirements.txt'
       - '*.py'
       - 'sample.env'
-   
   workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-push:
