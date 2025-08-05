@@ -1,42 +1,45 @@
-import subprocess
 import asyncio
+import docker
 import config
 from utils import log
+import subprocess  # Still needed for log reading, for now
+
+# Initialize Docker client
+client = docker.from_env()
 
 def is_container_running():
-    result = subprocess.run(
-        ["docker", "inspect", "-f", "{{.State.Running}}", config.DOCKER_CONTAINER_NAME],
-        capture_output=True, text=True
-    )
-    return result.stdout.strip() == "true"
+    try:
+        container = client.containers.get(config.DOCKER_CONTAINER_NAME)
+        return container.status == "running"
+    except docker.errors.NotFound:
+        log(f"[docker] Container '{config.DOCKER_CONTAINER_NAME}' not found.")
+    except Exception as e:
+        log(f"[docker] Error checking container status: {e}")
+    return False
 
 def start_container():
     log("[docker] Starting container...")
     try:
-        result = subprocess.run(
-            ["docker", "start", config.DOCKER_CONTAINER_NAME],
-            capture_output=True, text=True
-        )
-        if result.returncode == 0:
-            log(f"[docker] Container started: {result.stdout.strip()}")
-        else:
-            log(f"[docker] Error starting container: {result.stderr.strip()}")
+        container = client.containers.get(config.DOCKER_CONTAINER_NAME)
+        container.start()
+        log("[docker] Container started.")
+    except docker.errors.NotFound:
+        log(f"[docker] Container '{config.DOCKER_CONTAINER_NAME}' not found.")
     except Exception as e:
         log(f"[docker] Exception starting container: {e}")
 
 def stop_container():
     log("[docker] Stopping container...")
     try:
-        result = subprocess.run(
-            ["docker", "stop", config.DOCKER_CONTAINER_NAME],
-            capture_output=True, text=True
-        )
-        if result.returncode == 0:
-            log(f"[docker] Container stopped: {result.stdout.strip()}")
-        else:
-            log(f"[docker] Error stopping container: {result.stderr.strip()}")
+        container = client.containers.get(config.DOCKER_CONTAINER_NAME)
+        container.stop()
+        log("[docker] Container stopped.")
+    except docker.errors.NotFound:
+        log(f"[docker] Container '{config.DOCKER_CONTAINER_NAME}' not found.")
     except Exception as e:
         log(f"[docker] Exception stopping container: {e}")
+
+# --- Still using subprocess for log reading (for now) ---
 
 async def read_full_log_lines():
     cmd = ["docker", "exec", config.DOCKER_CONTAINER_NAME, "cat", config.LOG_PATH]

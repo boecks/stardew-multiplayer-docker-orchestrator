@@ -1,0 +1,14 @@
+services:
+  orchestrator:
+    #build: .
+    image: stardew-orchestrator:latest
+    container_name: stardew-orchestrator
+    network_mode: "host"
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - .env
+    restart: unless-stopped
