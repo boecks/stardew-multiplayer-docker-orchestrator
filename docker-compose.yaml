@@ -1,7 +1,7 @@
 services:
   orchestrator:
     #build: .
-    image: stardew-orchestrator:latest
+    image: ghcr.io/boecks/stardew-multiplayer-docker-orchestrator:latest
     container_name: stardew-orchestrator
     network_mode: "host"
     cap_add:
