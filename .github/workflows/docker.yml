@@ -7,13 +7,12 @@ on:
     paths:
       - 'app/**'
       - 'Dockerfile'
+      - 'docker-compose.yaml'
       - 'requirements.txt'
-      - 'config.py'
-      - 'utils.py'
-      - 'container_control.py'
-      - 'smapi_monitor.py'
-      - 'udp_monitor.py'
       - '*.py'
+      - 'sample.env'
+   
+  workflow_dispatch:
 
 jobs:
   build-and-push:
