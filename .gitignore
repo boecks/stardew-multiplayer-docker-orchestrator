@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders
+venv/
+env/
+
+# Logs
+*.log
+
+# Docker-related (if any)
+*.pid
+
+# VSCode settings (optional)
+.vscode/
+
+# MacOS system files
+.DS_Store
