@@ -8,7 +8,7 @@ This repository contains a Python script designed to manage your Stardew Valley 
 
 ## Why This Repo Exists
 
-After purchasing multiple Stardew Valley licenses to enjoy indie gaming with friends on my local LAN, I initially hosted the dedicated server on my PC. However, this setup lacked flexibility.
+After purchasing multiple Stardew Valley licenses to enjoy indie gaming with friends on my local LAN, I initially hosted coop games on my PC. However, this setup lacked flexibility.
 
 I then moved the server to a Proxmox cluster using the excellent [stardew-multiplayer-docker](https://github.com/cavazos-apps/stardew-multiplayer-docker) project. While playing, I noticed a 30W increase in my rack's power draw due to the server running idle — the Stardew Valley server consumed both of the 2 vCPUs on my Ryzen 5 5600, even when no players were online.
 
