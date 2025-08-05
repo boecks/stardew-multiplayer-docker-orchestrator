@@ -60,7 +60,7 @@ Copy `sample.env` to `.env` and adjust as needed:
 
 ```sh
 cp sample.env .env
-
+```
 
 ---
 
@@ -72,3 +72,4 @@ Run the script manually:
 sudo python3 main.py
 # or if you are root:
 python3 main.py
+```
