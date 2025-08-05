@@ -1,11 +1,8 @@
 import asyncio
 import re
-from datetime import datetime
-from config import (
-    log, LOG_PATH, IDLE_TIMEOUT, HOST_ONLY_TIMEOUT,
-    USE_DOCKER_EXEC_LOGS, DOCKER_CONTAINER_NAME
-)
+import config
 from container_control import stop_container, is_container_running
+from utils import log
 
 class SmapiMonitor:
     def __init__(self):
@@ -34,13 +31,13 @@ class SmapiMonitor:
         if self.host_only_timer:
             return
         log("[smapi] Scheduling host-only shutdown timer.")
-        self.host_only_timer = loop.create_task(self.schedule_timer(HOST_ONLY_TIMEOUT, "Host-only"))
+        self.host_only_timer = loop.create_task(self.schedule_timer(config.HOST_ONLY_TIMEOUT, "Host-only"))
 
     def schedule_idle_timer(self, loop):
         if self.idle_timer:
             return
         log("[smapi] Scheduling idle shutdown timer.")
-        self.idle_timer = loop.create_task(self.schedule_timer(IDLE_TIMEOUT, "Idle"))
+        self.idle_timer = loop.create_task(self.schedule_timer(config.IDLE_TIMEOUT, "Idle"))
 
     def cancel_host_only_timer(self):
         if self.host_only_timer:
@@ -107,7 +104,7 @@ class SmapiMonitor:
             return
 
 async def read_full_log_and_return_lines():
-    cmd = ["docker", "exec", DOCKER_CONTAINER_NAME, "cat", LOG_PATH]
+    cmd = ["docker", "exec", config.DOCKER_CONTAINER_NAME, "cat", config.LOG_PATH]
     proc = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE)
     lines = []
     while True:
@@ -119,7 +116,7 @@ async def read_full_log_and_return_lines():
     return lines
 
 async def tail_log_lines():
-    cmd = ["docker", "exec", DOCKER_CONTAINER_NAME, "tail", "-n", "0", "-F", LOG_PATH]
+    cmd = ["docker", "exec", config.DOCKER_CONTAINER_NAME, "tail", "-n", "0", "-F", config.LOG_PATH]
     proc = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE)
     try:
         while True:

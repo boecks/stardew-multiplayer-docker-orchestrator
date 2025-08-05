@@ -56,9 +56,11 @@ This script automates that process.
 
 ## Configuration
 
-Currently, configuration options such as server container name, UDP port, idle timeouts, and log paths are set in `config.py`.
+Copy `sample.env` to `.env` and adjust as needed:
 
-*Future improvements will include environment variable support to simplify containerized deployments.*
+```sh
+cp sample.env .env
+
 
 ---
 

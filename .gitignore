@@ -10,6 +10,10 @@ env/
 # Logs
 *.log
 
+# Local configs
+.env
+.env.local
+
 # Docker-related (if any)
 *.pid
 

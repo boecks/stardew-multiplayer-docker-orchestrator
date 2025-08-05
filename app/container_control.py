@@ -1,9 +1,10 @@
 import subprocess
-from config import log, DOCKER_CONTAINER_NAME
+import config
+from utils import log
 
 def is_container_running():
     result = subprocess.run(
-        ["docker", "inspect", "-f", "{{.State.Running}}", DOCKER_CONTAINER_NAME],
+        ["docker", "inspect", "-f", "{{.State.Running}}", config.DOCKER_CONTAINER_NAME],
         capture_output=True, text=True
     )
     return result.stdout.strip() == "true"
@@ -12,7 +13,7 @@ def start_container():
     log("[docker] Starting container...")
     try:
         result = subprocess.run(
-            ["docker", "start", DOCKER_CONTAINER_NAME],
+            ["docker", "start", config.DOCKER_CONTAINER_NAME],
             capture_output=True, text=True
         )
         if result.returncode == 0:
@@ -26,7 +27,7 @@ def stop_container():
     log("[docker] Stopping container...")
     try:
         result = subprocess.run(
-            ["docker", "stop", DOCKER_CONTAINER_NAME],
+            ["docker", "stop", config.DOCKER_CONTAINER_NAME],
             capture_output=True, text=True
         )
         if result.returncode == 0:

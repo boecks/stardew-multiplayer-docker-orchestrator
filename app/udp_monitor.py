@@ -1,10 +1,11 @@
 import asyncio
-from config import log, UDP_PORT
+import config
+from utils import log
 
 async def wait_for_packet():
-    log(f"[udp] Listening on UDP port {UDP_PORT}")
+    log(f"[udp] Listening on UDP port {config.UDP_PORT}")
     proc = await asyncio.create_subprocess_exec(
-        'tcpdump', '-l', '-n', '-i', 'any', 'udp', 'port', str(UDP_PORT), '-c', '1',
+        'tcpdump', '-l', '-n', '-i', 'any', 'udp', 'port', str(config.UDP_PORT), '-c', '1',
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.DEVNULL,
     )
